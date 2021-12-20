@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Header() {
+function Map() {
     return (
         <div>
-           header 
+          map
         </div>
     )
 }
 
-export default Header;
+export default Map;

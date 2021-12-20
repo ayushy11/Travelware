@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Header() {
+function PlaceDetails() {
     return (
         <div>
-           header 
+           places
         </div>
     )
 }
 
-export default Header;
+export default PlaceDetails;
