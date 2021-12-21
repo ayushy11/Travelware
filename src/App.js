@@ -9,6 +9,7 @@ import { getPlacesData } from "./api";
 
 const App = () => {
   const [places, setPlaces] = useState([]);
+  console.log("!!!", places);
 
   const [coordinates, setCoordinates] = useState({});
   const [bounds, setBounds] = useState({});
@@ -22,9 +23,9 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    getPlacesData(bounds.sw, bounds.ne).then((data) => {
-      console.log(data);
-      setPlaces(data);
+    getPlacesData(bounds.sw, bounds.ne).then((placeData) => {
+      console.log(">>>>>>", placeData);
+      setPlaces(placeData);
     });
   }, [bounds]);
 

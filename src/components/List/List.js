@@ -40,8 +40,8 @@ function List({ places }) {
         </Select>
       </FormControl>
       <Grid container spacing={3} className="classes.List">
-        {places?.map((place, id) => (
-          <Grid item key={id} xs={12}>
+        {places?.map((place) => (
+          <Grid item xs={12}>
             <PlaceDetails place={place} />
           </Grid>
         ))}

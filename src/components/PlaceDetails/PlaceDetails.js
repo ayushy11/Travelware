@@ -22,28 +22,30 @@ function PlaceDetails({ place }) {
       <CardMedia
         style={{ height: 350 }}
         image={
-          place.photo
-            ? place.photo.images.large.url
+          place?.photo
+            ? place?.photo.images.large.url
             : "https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg"
         }
-        title={place.name}
+        title={place?.name}
       />
       <CardContent>
         <Typography gutterBottom variant="h5">
-          {place.name}
+          {place?.name}
         </Typography>
         <Box display="flex" justifyContent="space-between">
           <Typography variant="subtitle1">Price</Typography>
           <Typography gutterbottom variant="subtitle1">
-            {place.price_level}
+            {place?.price_level}
           </Typography>
         </Box>
+
         <Box display="flex" justifyContent="space-between">
           <Typography variant="subtitle1">Ranking</Typography>
           <Typography gutterbottom variant="subtitle1">
-            {place.ranking}
+            {place?.ranking}
           </Typography>
         </Box>
+
         {place?.awards?.map((award) => (
           <Box
             display="flex"
@@ -51,15 +53,17 @@ function PlaceDetails({ place }) {
             alignItems="center"
             my={1}
           >
-            <img src={award.images.small} alt={award.display_name} />
+            <img src={award?.images.small} alt={award?.display_name} />
             <Typography variant="subtitle2" color="textSecondary">
-              {award.display_name}
+              {award?.display_name}
             </Typography>
           </Box>
         ))}
-        {place?.cuisine?.map((name) => (
-          <Chip key={name} size="small" label={name} className={classes.chip} />
+
+        {place?.cuisine?.map(({ name, key }) => (
+          <Chip key={key} size="small" label={name} className={classes.chip} />
         ))}
+
         {place?.address && (
           <Typography
             gutterbottom
@@ -67,9 +71,10 @@ function PlaceDetails({ place }) {
             color="textSecondary"
             className={classes.subtitle}
           >
-            <LocationOnIcon /> {place.address}
+            <LocationOnIcon /> {place?.address}
           </Typography>
         )}
+
         {place?.phone && (
           <Typography
             gutterbottom
@@ -77,7 +82,7 @@ function PlaceDetails({ place }) {
             color="textSecondary"
             className={classes.spacing}
           >
-            <PhoneIcon /> {place.phone}
+            <PhoneIcon /> {place?.phone}
           </Typography>
         )}
       </CardContent>
@@ -86,14 +91,14 @@ function PlaceDetails({ place }) {
         <Button
           size="small"
           color="primary"
-          onClick={() => window.open(place.web_url, "_blank")}
+          onClick={() => window.open(place?.web_url, "_blank")}
         >
           Travelware
         </Button>
         <Button
           size="small"
           color="primary"
-          onClick={() => window.open(place.website, "_blank")}
+          onClick={() => window.open(place?.website, "_blank")}
         >
           Website
         </Button>
