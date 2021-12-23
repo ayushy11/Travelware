@@ -33,6 +33,12 @@ function PlaceDetails({ place }) {
           {place?.name}
         </Typography>
         <Box display="flex" justifyContent="space-between">
+          <Rating size="small" value={place?.rating} readOnly />
+          <Typography gutterbottom variant="subtitle1">
+            {place?.num_reviews}
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="space-between">
           <Typography variant="subtitle1">Price</Typography>
           <Typography gutterbottom variant="subtitle1">
             {place?.price_level}

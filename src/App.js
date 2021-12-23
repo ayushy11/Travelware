@@ -7,6 +7,8 @@ import List from "./components/List/List";
 import Map from "./components/Map/Map";
 import { getPlacesData } from "./api";
 
+import "leaflet/dist/leaflet.css";
+
 const App = () => {
   const [places, setPlaces] = useState([]);
   console.log("!!!", places);
@@ -39,9 +41,10 @@ const App = () => {
         </Grid>
         <Grid item xs={12} md={8}>
           <Map
-            setCoordinates={setCoordinates}
-            setBounds={setBounds}
-            coordinates={coordinates}
+            // setCoordinates={setCoordinates}
+            // setBounds={setBounds}
+            // coordinates={coordinates}
+            // places={places}
           />
         </Grid>
       </Grid>
