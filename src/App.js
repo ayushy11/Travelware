@@ -11,10 +11,14 @@ import "leaflet/dist/leaflet.css";
 
 const App = () => {
   const [places, setPlaces] = useState([]);
-  console.log("!!!places", places);
+  // console.log("!!!places", places);
 
   const [coordinates, setCoordinates] = useState({});
   const [bounds, setBounds] = useState({});
+
+  const [event, setEvent] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -25,23 +29,26 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     getPlacesData(bounds.sw, bounds.ne).then((placeData) => {
-      console.log(">>>>>>", placeData);
+      // console.log(">>>>>>", placeData);
 
       const newData = placeData?.filter((item) => {
         return item.name && item.latitude && item.longitude;
       });
 
-      console.log(";;;;;;;;;;;;;;;;;;", newData);
+      // console.log(";;;;;;;;;;;;;;;;;;", newData);
 
-      const filterData = newData?.map((item) => {
+      const filterData = newData?.map((item, i) => {
         parseFloat(item.latitude);
         parseFloat(item.longitude);
-        return { ...item };
+        const index = i;
+        return { ...item, index };
       });
-      console.log("======", filterData);
+      console.log("filterData", filterData);
 
-      setPlaces(newData);
+      setPlaces(filterData);
+      setIsLoading(false);
     });
   }, [bounds]);
 
@@ -51,7 +58,7 @@ const App = () => {
       <Header />
       <Grid container spacing={3} style={{ width: "100%" }}>
         <Grid item xs={12} md={4}>
-          <List places={places} />
+          <List places={places} event={event} isLoading={isLoading} />
         </Grid>
         <Grid item xs={12} md={8}>
           <Map
@@ -59,6 +66,7 @@ const App = () => {
             setBounds={setBounds}
             coordinates={coordinates}
             places={places}
+            setEvent={setEvent}
           />
         </Grid>
       </Grid>

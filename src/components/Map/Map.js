@@ -20,7 +20,7 @@ function LocationMarker({ setCoordinates, setBounds }) {
       map.locate();
     },
     locationfound(e) {
-      console.log("/////", e);
+      // console.log("/////", e);
       setCoordinates({
         lat: e.latlng.lat,
         lng: e.latlng.lng,
@@ -41,7 +41,7 @@ function LocationMarker({ setCoordinates, setBounds }) {
   );
 }
 
-const Map = ({ setBounds, setCoordinates, coordinates, places }) => {
+const Map = ({ setBounds, setCoordinates, coordinates, places, setEvent }) => {
   const classes = useStyles();
   const isMobile = useMediaQuery("(min-width: 600px)");
   const isDesktop = useMediaQuery("(min-width: 1440px)");
@@ -52,10 +52,17 @@ const Map = ({ setBounds, setCoordinates, coordinates, places }) => {
         center={[place.latitude, place.longitude]}
         fillOpacity={1}
         pathOptions={{
-          color: "#7DD71D",
-          fillColor: "#CC1034",
+          color: "#797EF6",
+          fillColor: "#4ADEDE",
         }}
-        radius={20}
+        radius={16}
+        eventHandlers={{
+          click: (e) => {
+            console.log("circle clicked", e);
+            const locationId = parseFloat(place.index);
+            setEvent(locationId);
+          },
+        }}
       >
         <Popup className={classes.markerContainer}>
           <Paper elevation={3} className={classes.paper}>
