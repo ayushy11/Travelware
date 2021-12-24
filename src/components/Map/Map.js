@@ -1,21 +1,91 @@
-import React from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import React, { useState } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+  Circle,
+} from "react-leaflet";
 import { Paper, Typography, useMediaQuery } from "@material-ui/core";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import { Rating } from "@material-ui/lab";
 
 import useStyles from "./styles.js";
 
-const Map = () => {
+function LocationMarker({ setCoordinates, setBounds }) {
+  const [position, setPosition] = useState(null);
+  const map = useMapEvents({
+    click() {
+      map.locate();
+    },
+    locationfound(e) {
+      console.log("/////", e);
+      setCoordinates({
+        lat: e.latlng.lat,
+        lng: e.latlng.lng,
+      });
+      setBounds({
+        ne: e.bounds._northEast,
+        sw: e.bounds._southWest,
+      });
+      setPosition(e.latlng);
+      map.flyTo(e.latlng, map.getZoom());
+    },
+  });
+
+  return position === null ? null : (
+    <Marker position={position}>
+      <Popup>You are here</Popup>
+    </Marker>
+  );
+}
+
+const Map = ({ setBounds, setCoordinates, coordinates, places }) => {
   const classes = useStyles();
   const isMobile = useMediaQuery("(min-width: 600px)");
   const isDesktop = useMediaQuery("(min-width: 1440px)");
+
+  const showDataOnMap = (places) =>
+    places?.map((place) => (
+      <Circle
+        center={[place.latitude, place.longitude]}
+        fillOpacity={1}
+        pathOptions={{
+          color: "#7DD71D",
+          fillColor: "#CC1034",
+        }}
+        radius={20}
+      >
+        <Popup className={classes.markerContainer}>
+          <Paper elevation={3} className={classes.paper}>
+            <Typography
+              variant="subtitle2"
+              gutterbottom
+              className={classes.typography}
+            >
+              {place?.name}
+            </Typography>
+            <img
+              src={
+                place?.photo
+                  ? place?.photo.images.large.url
+                  : "https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg"
+              }
+              className={classes.pointer}
+              alt={place.name}
+            />
+            <Rating size="small" value={place?.rating} readOnly />
+          </Paper>
+        </Popup>
+      </Circle>
+    ));
 
   return (
     <div className={classes.mapContainer}>
       <MapContainer
         center={[51.505, -0.09]}
-        zoom={13}
+        zoom={16}
         scrollWheelZoom={false}
         className={classes.map}
       >
@@ -23,65 +93,9 @@ const Map = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        <LocationMarker setBounds={setBounds} setCoordinates={setCoordinates} />
+        <div className={classes.markerContainer}>{showDataOnMap(places)}</div>
       </MapContainer>
-      {/* <GoogleMapReact
-        bootstrapURLKeys={{ key: "AIzaSyAwCYDXqraqHicaQr9ltaSN91JQYOe6cJU" }}
-        defaultCenter={coordinates}
-        center={coordinates}
-        defaultZoom={14}
-        margin={[50, 50, 50, 50]}
-        options={""}
-        onChange={(e) => {
-          console.log("!!!", e);
-          setCoordinates({
-            lat: e.center.lat,
-            lng: e.center.lng,
-          });
-          setBounds({
-            ne: e.marginBounds.ne,
-            sw: e.marginBounds.sw,
-          });
-        }}
-        onChildClick={""}
-      >
-        {places?.map((place, i) => (
-          <div
-            className={classes.markerContainer}
-            lat={place.latitude}
-            lng={place.longitude}
-            key={i}
-          >
-            {isDesktop ? (
-              <LocationOnOutlinedIcon color="primary" fontSize="large" />
-            ) : (
-              <Paper elevation={3} className={classes.paper}>
-                <Typography
-                  variant="subtitle2"
-                  gutterbottom
-                  className={classes.typography}
-                >
-                  {place?.name}
-                </Typography>
-                <img
-                  src={
-                    place?.photo
-                      ? place?.photo.images.large.url
-                      : "https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg"
-                  }
-                  className={classes.pointer}
-                  alt={place.name}
-                />
-                <Rating size="small" value={place?.rating} readOnly />
-              </Paper>
-            )}
-          </div>
-        ))}
-      </GoogleMapReact> */}
     </div>
   );
 };

@@ -11,7 +11,7 @@ import "leaflet/dist/leaflet.css";
 
 const App = () => {
   const [places, setPlaces] = useState([]);
-  console.log("!!!", places);
+  console.log("!!!places", places);
 
   const [coordinates, setCoordinates] = useState({});
   const [bounds, setBounds] = useState({});
@@ -27,7 +27,21 @@ const App = () => {
   useEffect(() => {
     getPlacesData(bounds.sw, bounds.ne).then((placeData) => {
       console.log(">>>>>>", placeData);
-      setPlaces(placeData);
+
+      const newData = placeData?.filter((item) => {
+        return item.name && item.latitude && item.longitude;
+      });
+
+      console.log(";;;;;;;;;;;;;;;;;;", newData);
+
+      const filterData = newData?.map((item) => {
+        parseFloat(item.latitude);
+        parseFloat(item.longitude);
+        return { ...item };
+      });
+      console.log("======", filterData);
+
+      setPlaces(newData);
     });
   }, [bounds]);
 
@@ -41,10 +55,10 @@ const App = () => {
         </Grid>
         <Grid item xs={12} md={8}>
           <Map
-            // setCoordinates={setCoordinates}
-            // setBounds={setBounds}
-            // coordinates={coordinates}
-            // places={places}
+            setCoordinates={setCoordinates}
+            setBounds={setBounds}
+            coordinates={coordinates}
+            places={places}
           />
         </Grid>
       </Grid>
