@@ -23,10 +23,13 @@ export default makeStyles(() => ({
   markerContainer: {
     position: "absolute",
     transform: "translate(-50%, -50%)",
-    zIndex: 100,
-    "&:hover": { zIndex: 200 },
+    zIndex: 1000,
+    "&:hover": { zIndex: 2000 },
   },
   pointer: {
     cursor: "pointer",
   },
+  image:{
+    
+  }
 }));

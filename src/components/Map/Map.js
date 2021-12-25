@@ -41,7 +41,14 @@ function LocationMarker({ setCoordinates, setBounds }) {
   );
 }
 
-const Map = ({ setBounds, setCoordinates, coordinates, places, setEvent }) => {
+const Map = ({
+  setBounds,
+  setCoordinates,
+  coordinates,
+  places,
+  setEvent,
+  weatherData,
+}) => {
   const classes = useStyles();
   const isMobile = useMediaQuery("(min-width: 600px)");
   const isDesktop = useMediaQuery("(min-width: 1440px)");
@@ -102,6 +109,16 @@ const Map = ({ setBounds, setCoordinates, coordinates, places, setEvent }) => {
         />
         <LocationMarker setBounds={setBounds} setCoordinates={setCoordinates} />
         <div className={classes.markerContainer}>{showDataOnMap(places)}</div>
+        {/* <div className={classes.markerContainer}>
+          {weatherData?.list?.map((data, i) => (
+            <div key={i} lat={data.coord.lat} lng={data.coord.lon}>
+              <img
+                height={50}
+                src={`https://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+              />
+            </div>
+          ))}
+        </div> */}
       </MapContainer>
     </div>
   );
