@@ -6,7 +6,6 @@
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
-    "@react-google-maps/api": "^2.7.0",
     "axios": "^0.24.0",
     "commitizen": "^4.2.4",
     "leaflet": "^1.7.1",
@@ -36,7 +35,7 @@
   },
   "browserslist": [
     ">0.2%",
-   "not dead",
-   "not op_mini all"
- ]
+    "not dead",
+    "not op_mini all"
+  ]
 }
