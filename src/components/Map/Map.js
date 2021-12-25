@@ -4,6 +4,7 @@ import {
   TileLayer,
   Marker,
   Popup,
+  Tooltip,
   useMapEvents,
   Circle,
 } from "react-leaflet";
@@ -36,7 +37,7 @@ function LocationMarker({ setCoordinates, setBounds }) {
 
   return position === null ? null : (
     <Marker position={position}>
-      <Popup>You are here</Popup>
+      <Tooltip>You are here</Tooltip>
     </Marker>
   );
 }
